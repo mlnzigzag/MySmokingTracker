@@ -37,12 +37,12 @@ class HomeFragment : Base<FragmentHomeBinding>(bindingInflater = FragmentHomeBin
 
     @Override
     override fun initialize() {
-        binding.buttonAddCigarette.setOnClickListener { viewModel.insertNow() }
+        binding.buttonAddCigarette?.setOnClickListener { viewModel.insertNow() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.historyChanges.collect { refreshHome() } }
                 launch {
-                    viewModel.isAdding.collect { isAdding -> binding.buttonAddCigarette.isEnabled = !isAdding }
+                    viewModel.isAdding.collect { isAdding -> binding.buttonAddCigarette?.isEnabled = !isAdding }
                 }
                 launch {
                     viewModel.addEvents.collect { success ->
@@ -83,7 +83,7 @@ class HomeFragment : Base<FragmentHomeBinding>(bindingInflater = FragmentHomeBin
                 lastEntry = state.lastEntry
                 dayEndMinutes = state.dayEndMinutes
                 currentDay = TimeHelper.dayDate(LocalDateTime.now(), dayEndMinutes)
-                binding.todayCount.text = state.smokedToday.toString()
+                binding.todayCount?.text = state.smokedToday.toString()
                 updateElapsedTime(LocalDateTime.now())
                 showContent()
             } catch (_: Exception) {
@@ -96,13 +96,15 @@ class HomeFragment : Base<FragmentHomeBinding>(bindingInflater = FragmentHomeBin
 
     private fun updateElapsedTime(now: LocalDateTime) {
         val duration = ElapsedTime.durationSince(lastSmoked = lastEntry?.createdAt, now = now)
-        binding.timerLabel.text = duration?.let(ElapsedTime::format) ?: getString(R.string.home_no_smoked_entries)
-        binding.timerLabel.setTextColor(
-            if (ElapsedTime.isBelowThreshold(duration, thresholdMinutes)) {
-                ContextCompat.getColor(requireContext(), R.color.home_timer_warning)
-            } else {
-                MaterialColors.getColor(binding.timerLabel, com.google.android.material.R.attr.colorOnSurface)
-            }
-        )
+        binding.timerLabel?.let { timerLabel ->
+            timerLabel.text = duration?.let(ElapsedTime::format) ?: getString(R.string.home_no_smoked_entries)
+            timerLabel.setTextColor(
+                if (ElapsedTime.isBelowThreshold(duration, thresholdMinutes)) {
+                    ContextCompat.getColor(requireContext(), R.color.home_timer_warning)
+                } else {
+                    MaterialColors.getColor(timerLabel, com.google.android.material.R.attr.colorOnSurface)
+                }
+            )
+        }
     }
 }
