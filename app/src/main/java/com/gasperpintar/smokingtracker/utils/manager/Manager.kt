@@ -12,6 +12,7 @@ import com.gasperpintar.smokingtracker.database.repository.NotificationsSettings
 import com.gasperpintar.smokingtracker.database.repository.SettingsRepository
 import com.gasperpintar.smokingtracker.ui.bar.DataSyncPipeline
 import com.gasperpintar.smokingtracker.ui.bar.SyncedStep
+import com.gasperpintar.smokingtracker.utils.ElapsedTimePreferences
 import com.gasperpintar.smokingtracker.utils.FileHelper
 import com.gasperpintar.smokingtracker.utils.manager.Extensions.create
 import com.gasperpintar.smokingtracker.utils.manager.Extensions.getRowCount
@@ -97,6 +98,10 @@ object Manager {
                             onStepProgress = progress
                         ) { it.toExcelRow() }
                     },
+                    SyncedStep(weight = 1) { progress ->
+                        MySmokingTrackerSettings.write(workbook, ElapsedTimePreferences(context).getThresholdMinutes())
+                        progress(100)
+                    },
                     SyncedStep(weight = 5) { progress ->
                         context.contentResolver.openOutputStream(fileUri)
                             ?.use(block = workbook::write)
@@ -155,6 +160,10 @@ object Manager {
                             },
                             SyncedStep(weight = workbook.getRowCount(sheetName = "NotificationsSettings")) {
                                 importNotificationsSettingsSheet(workbook, notificationsSettingsRepository, onStepProgress = it)
+                            },
+                            SyncedStep(weight = 1) { progress ->
+                                ElapsedTimePreferences(context).setThresholdMinutes(MySmokingTrackerSettings.readThresholdMinutes(workbook))
+                                progress(100)
                             }
                         )
                     ).run(onProgress)

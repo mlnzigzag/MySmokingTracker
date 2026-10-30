@@ -40,6 +40,11 @@ class FakeHistoryDao : FakeDao<HistoryEntity>(
     }
 
     @Override
+    override suspend fun getSmokedCountBetween(start: LocalDateTime, end: LocalDateTime): Int {
+        return getBetween(start = start, end = end).count { it.lent == 0 }
+    }
+
+    @Override
     override suspend fun getAveragePerDay(): Double {
         return averagePerDay
     }

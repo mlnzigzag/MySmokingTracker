@@ -22,6 +22,7 @@ import com.gasperpintar.smokingtracker.type.AchievementCategory
 import com.gasperpintar.smokingtracker.type.AchievementUnit
 import com.gasperpintar.smokingtracker.utils.manager.Manager
 import com.gasperpintar.smokingtracker.utils.manager.Mappers
+import com.gasperpintar.smokingtracker.utils.manager.MySmokingTrackerSettings
 import kotlinx.coroutines.runBlocking
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.junit.After
@@ -77,7 +78,21 @@ class ManagerTest {
             assertTrue(file.length() > 0)
 
             FileInputStream(file).use { XSSFWorkbook(it).use { workbook ->
-                assertTrue(workbook.numberOfSheets > 0)
+                assertEquals(
+                    listOf("History", "Achievements", "Costs", "Notes", "Settings", "NotificationsSettings", MySmokingTrackerSettings.SHEET_NAME),
+                    (0 until workbook.numberOfSheets).map { workbook.getSheetAt(it).sheetName }
+                )
+                mapOf(
+                    "History" to Mappers.HISTORY_HEADERS,
+                    "Achievements" to Mappers.ACHIEVEMENTS_HEADERS,
+                    "Costs" to Mappers.COSTS_HEADERS,
+                    "Notes" to Mappers.NOTES_HEADERS,
+                    "Settings" to Mappers.SETTINGS_HEADERS,
+                    "NotificationsSettings" to Mappers.NOTIF_SETTINGS_HEADERS
+                ).forEach { (name, headers) ->
+                    assertEquals(headers, workbook.getSheet(name).getRow(0).map { it.stringCellValue })
+                }
+                assertEquals(listOf("Key", "Value"), workbook.getSheet(MySmokingTrackerSettings.SHEET_NAME).getRow(0).map { it.stringCellValue })
             }}
             file.delete()
         }
@@ -158,14 +173,49 @@ class ManagerTest {
             )
 
             val expected = snapshot()
+            ElapsedTimePreferences(context).setThresholdMinutes(90)
             val (file, uri) = temporaryFile()
 
             backup(fileUri = uri)
+            ElapsedTimePreferences(context).setThresholdMinutes(60)
             clearDatabase()
             restore(fileUri = uri)
 
             assertEquals(expected, snapshot())
+            assertEquals(90, ElapsedTimePreferences(context).getThresholdMinutes())
             file.delete()
+        }
+    }
+
+    @Test
+    fun upstreamWorkbookWithoutExtensionRestoresDataAndDefaultsThreshold() {
+        runBlocking {
+            ElapsedTimePreferences(context).setThresholdMinutes(90)
+            restore(fileUri = uploadWorkbook())
+            assertEquals(1, historyRepository.getAll().size)
+            assertEquals("€", settingsRepository.get()?.currency)
+            assertEquals(60, ElapsedTimePreferences(context).getThresholdMinutes())
+        }
+    }
+
+    @Test
+    fun malformedAndUnknownExtensionsDoNotBlockOriginalDataRestore() {
+        runBlocking {
+            listOf<(XSSFWorkbook) -> Unit>(
+                { workbook -> MySmokingTrackerSettings.write(workbook, 90)
+                    workbook.getSheet(MySmokingTrackerSettings.SHEET_NAME).getRow(1).getCell(1).setCellValue("1.5") },
+                { workbook -> MySmokingTrackerSettings.write(workbook, 90)
+                    workbook.getSheet(MySmokingTrackerSettings.SHEET_NAME).getRow(1).getCell(0).setCellValue("UnknownFutureSetting") }
+            ).forEach { extension ->
+                ElapsedTimePreferences(context).setThresholdMinutes(90)
+                restore(fileUri = uploadWorkbook(extension))
+                assertEquals(1, historyRepository.getAll().size)
+                assertEquals(4.5, costsRepository.getAll().single().price, 0.001)
+                assertEquals("Test", notesRepository.getAll().single().title)
+                assertEquals("€", settingsRepository.get()?.currency)
+                assertEquals(false, notificationsRepository.get()?.progress)
+                assertEquals(60, ElapsedTimePreferences(context).getThresholdMinutes())
+            }
         }
     }
 
@@ -287,7 +337,7 @@ class ManagerTest {
         return FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
     }
 
-    private fun uploadWorkbook(): Uri {
+    private fun uploadWorkbook(extension: ((XSSFWorkbook) -> Unit)? = null): Uri {
         return writeWorkbook { workbook ->
             workbook.sheet(name = "History", headers = Mappers.HISTORY_HEADERS, values = listOf(1, "2026-01-01 12:00:00"))
             workbook.sheet(
@@ -300,6 +350,7 @@ class ManagerTest {
             workbook.sheet(name = "Notes", headers = Mappers.NOTES_HEADERS, values = listOf("Test", "Smoking note", 3, "2026-01-01 10:00:00", "2026-01-01 11:00:00"))
             workbook.sheet(name = "Settings", headers = Mappers.SETTINGS_HEADERS, values = listOf(1, 2, 5, "€", ""))
             workbook.sheet(name = "NotificationsSettings", headers = Mappers.NOTIF_SETTINGS_HEADERS, values = listOf(true, true, false))
+            extension?.invoke(workbook)
         }
     }
 

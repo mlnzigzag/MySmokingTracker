@@ -25,6 +25,7 @@ import com.gasperpintar.smokingtracker.databinding.DialogContentCostsBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentCurrencyBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentDatePickerBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentEditBinding
+import com.gasperpintar.smokingtracker.databinding.DialogContentElapsedThresholdBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentEndDayBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentInsertBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentLanguageBinding
@@ -37,6 +38,7 @@ import com.gasperpintar.smokingtracker.type.Widget
 import com.gasperpintar.smokingtracker.ui.adapter.Adapter
 import com.gasperpintar.smokingtracker.ui.bar.LoadingDialog
 import com.gasperpintar.smokingtracker.ui.container.ContainerManager
+import com.gasperpintar.smokingtracker.utils.ElapsedTime
 import com.gasperpintar.smokingtracker.utils.LocalizationHelper
 import com.gasperpintar.smokingtracker.utils.TimeHelper
 import com.gasperpintar.smokingtracker.utils.TimeHelper.toLocalDate
@@ -209,6 +211,28 @@ object DialogManager {
             onSuccess(content.timePicker.hour * 60 + content.timePicker.minute)
             dismiss()
         }
+    }
+
+    fun showElapsedThresholdDialog(
+        context: FragmentActivity,
+        currentMinutes: Int,
+        onSuccess: (Int) -> Unit
+    ) = BaseDialog.show(context = context, inflate = DialogContentElapsedThresholdBinding::inflate) { content ->
+        binding.title.setText(R.string.settings_elapsed_threshold)
+        binding.message.setText(R.string.settings_elapsed_threshold_dialog_description)
+        binding.dialogConfirm.isVisible = true
+        content.inputThreshold.setText(currentMinutes.toString())
+        binding.confirm.setOnClickListener {
+            val threshold = ElapsedTime.parseThresholdMinutes(content.inputThreshold.text.toString())
+            if (threshold == null) {
+                content.thresholdError.isVisible = true
+                content.inputThreshold.requestFocus()
+            } else {
+                onSuccess(threshold)
+                dismiss()
+            }
+        }
+        content.inputThreshold.doAfterTextChanged { content.thresholdError.isGone = true }
     }
 
     fun showWidgetsDialog(

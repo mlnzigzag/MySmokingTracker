@@ -76,7 +76,7 @@ class ScreenshotTest {
 
             captureScreenshot(name = "1")
 
-            listOf("2", "3", "4").forEach {
+            listOf("2", "3", "4", "5").forEach {
                 onView(withId(R.id.main_view_pager)).perform(swipeLeft())
                 captureScreenshot(name = it,
                     delayMs = if (it == "2") 10_000 else 1_500
@@ -85,33 +85,33 @@ class ScreenshotTest {
         }
 
         ActivityScenario.launch(StatisticsActivity::class.java).use {
-            captureScreenshot(name = "5", 3_000)
+            captureScreenshot(name = "6", 3_000)
             onView(withId(R.id.statistics_view_pager)).perform(swipeLeft())
-            captureScreenshot(name = "6", 10_000)
+            captureScreenshot(name = "7", 10_000)
         }
 
         ActivityScenario.launch(AchievementsActivity::class.java).use {
-            captureScreenshot(name = "7")
-            onView(withId(R.id.achievements_view_pager)).perform(swipeLeft())
             captureScreenshot(name = "8")
-        }
-
-        ActivityScenario.launch(CalculatorActivity::class.java).use {
+            onView(withId(R.id.achievements_view_pager)).perform(swipeLeft())
             captureScreenshot(name = "9")
         }
 
-        ActivityScenario.launch(NotesActivity::class.java).use {
+        ActivityScenario.launch(CalculatorActivity::class.java).use {
             captureScreenshot(name = "10")
+        }
+
+        ActivityScenario.launch(NotesActivity::class.java).use {
+            captureScreenshot(name = "11")
 
             runCatching {
                 onView(withId(R.id.recyclerview_notes))
                     .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-                captureScreenshot(name = "11")
+                captureScreenshot(name = "12")
             }
         }
 
         ActivityScenario.launch(AboutActivity::class.java).use {
-            captureScreenshot(name = "12")
+            captureScreenshot(name = "13")
         }
     }
 

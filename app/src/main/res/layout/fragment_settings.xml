@@ -236,6 +236,27 @@
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="5dp"
             style="@style/Card">
+            <LinearLayout android:id="@+id/elapsed_threshold_layout" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:minHeight="55dp" android:clickable="true" android:focusable="true"
+                android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="5dp"
+                android:paddingEnd="12dp" android:paddingVertical="12dp">
+                <ImageView android:layout_width="40dp" android:layout_height="40dp" android:layout_marginEnd="5dp"
+                    android:contentDescription="@string/settings_elapsed_threshold" android:src="@drawable/history_48px" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="2dp"
+                        android:text="@string/settings_elapsed_threshold" style="@style/SubtitleTextView" />
+                    <TextView android:id="@+id/elapsed_threshold_service" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" style="@style/BodyTextView" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="5dp"
+            style="@style/Card">
 
             <LinearLayout
                 android:id="@+id/widgets_layout"

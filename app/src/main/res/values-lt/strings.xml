@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_name">Rūkymo Seklys</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="application_tagline">Sek. Analizuok. Progresuok.</string>
     <string name="navigation_home">Pradžia</string>
     <string name="navigation_more">Daugiau</string>

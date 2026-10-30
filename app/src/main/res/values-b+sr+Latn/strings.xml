@@ -37,7 +37,7 @@
     <string name="insert_popup_add">Dodaj</string>
     <string name="edit_popup_message">Datum i vreme</string>
     <string name="edit_popup_lent">Pozajmljena cigareta?</string>
-    <string name="application_name">Praćenje Pušenja</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_graph">Grafikon</string>
     <string name="navigation_more">Analitika</string>
     <string name="home_timer_day">d</string>

@@ -1,165 +1,108 @@
 package com.gasperpintar.smokingtracker.ui.fragment
 
-import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.repeatOnLifecycle
 import com.gasperpintar.smokingtracker.Application
+import com.gasperpintar.smokingtracker.R
 import com.gasperpintar.smokingtracker.database.entity.HistoryEntity
-import com.gasperpintar.smokingtracker.database.model.HistoryEntry
 import com.gasperpintar.smokingtracker.database.viewmodel.HomeViewModel
 import com.gasperpintar.smokingtracker.databinding.FragmentHomeBinding
-import com.gasperpintar.smokingtracker.databinding.ContainerContentHistoryBinding
 import com.gasperpintar.smokingtracker.di.ModelFactory
-import com.gasperpintar.smokingtracker.ui.adapter.Adapter
-import com.gasperpintar.smokingtracker.ui.container.ContainerManager
-import com.gasperpintar.smokingtracker.ui.dialog.DialogManager
-import com.gasperpintar.smokingtracker.utils.LocalizationHelper
+import com.gasperpintar.smokingtracker.utils.ElapsedTime
+import com.gasperpintar.smokingtracker.utils.ElapsedTimePreferences
 import com.gasperpintar.smokingtracker.utils.TimeHelper
 import com.gasperpintar.smokingtracker.utils.WidgetHelper
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
-import kotlin.time.Duration.Companion.milliseconds
 
-class HomeFragment : Base<FragmentHomeBinding>(
-    bindingInflater = FragmentHomeBinding::inflate
-) {
-
+class HomeFragment : Base<FragmentHomeBinding>(bindingInflater = FragmentHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels {
         ModelFactory(container = (requireActivity().application as Application).container)
     }
-
+    private val elapsedTimePreferences by lazy { ElapsedTimePreferences(requireContext()) }
     private var lastEntry: HistoryEntity? = null
-    private var timerJob: Job? = null
-
-    private lateinit var adapter: Adapter<HistoryEntry, ContainerContentHistoryBinding>
+    private var dayEndMinutes = 0
+    private var currentDay: LocalDate? = null
+    private var thresholdMinutes = ElapsedTime.DEFAULT_THRESHOLD_MINUTES
+    private var refreshJob: Job? = null
 
     @Override
-    override fun initialize() = binding.apply {
-        buttonAddEntry.setOnClickListener {
-            DialogManager.showInsertDialog(context = requireActivity()) { isLent ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.insert(isLent = isLent)
-                    loadHistory()
+    override fun initialize() {
+        binding.buttonAddCigarette.setOnClickListener { viewModel.insertNow() }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.historyChanges.collect { refreshHome() } }
+                launch {
+                    viewModel.isAdding.collect { isAdding -> binding.buttonAddCigarette.isEnabled = !isAdding }
+                }
+                launch {
+                    viewModel.addEvents.collect { success ->
+                        if (success) {
+                            WidgetHelper.updateAllWidgets(context = requireContext())
+                            Snackbar.make(binding.root, R.string.home_add_success, Snackbar.LENGTH_SHORT).show()
+                        } else {
+                            Snackbar.make(binding.root, R.string.home_add_error, Snackbar.LENGTH_LONG).show()
+                        }
+                    }
                 }
             }
         }
-
-        previousDay.setOnClickListener {
-            viewModel.previousDay()
-            viewLifecycleOwner.lifecycleScope.launch {
-                loadHistory()
-            }
-        }
-
-        nextDay.setOnClickListener {
-            viewModel.nextDay()
-            viewLifecycleOwner.lifecycleScope.launch {
-                loadHistory()
-            }
-        }
-
-        setupAdapter()
-
         viewLifecycleOwner.lifecycleScope.launch {
-            loadHistory()
-            showContent()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                while (isActive) {
+                    val now = LocalDateTime.now()
+                    if (currentDay != null && currentDay != TimeHelper.dayDate(now, dayEndMinutes)) refreshHome()
+                    updateElapsedTime(now)
+                    delay(1_000)
+                }
+            }
         }
     }
 
     @Override
     override fun onResume() {
         super.onResume()
-        startTimer()
-        viewLifecycleOwner.lifecycleScope.launch {
-            loadHistory(updateWidgets = false)
+        thresholdMinutes = elapsedTimePreferences.getThresholdMinutes()
+        refreshHome()
+    }
+
+    private fun refreshHome() {
+        if (refreshJob?.isActive == true || view == null) return
+        refreshJob = viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val state = viewModel.getMinimalState()
+                lastEntry = state.lastEntry
+                dayEndMinutes = state.dayEndMinutes
+                currentDay = TimeHelper.dayDate(LocalDateTime.now(), dayEndMinutes)
+                binding.todayCount.text = state.smokedToday.toString()
+                updateElapsedTime(LocalDateTime.now())
+                showContent()
+            } catch (_: Exception) {
+                if (view != null) Snackbar.make(binding.root, R.string.home_load_error, Snackbar.LENGTH_LONG).show()
+            } finally {
+                refreshJob = null
+            }
         }
     }
 
-    @Override
-    override fun onPause() {
-        super.onPause()
-        stopTimer()
-    }
-
-    @Override
-    override fun onDestroyView() {
-        super.onDestroyView()
-        stopTimer()
-    }
-
-    private fun setupAdapter() = binding.apply {
-        adapter = ContainerManager.createHistoryAdapter(
-            context = requireActivity(),
-            onEdit = { entry ->
-                DialogManager.showEditDialog(context = requireActivity(), entry = entry) { newDateTime, isLent ->
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.update(entry, newDateTime, isLent)
-                        loadHistory()
-                    }
-                }
-            },
-            onDelete = { entry ->
-                DialogManager.showDeleteDialog(context = requireActivity()) {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.delete(entry)
-                        loadHistory()
-                    }
-                }
+    private fun updateElapsedTime(now: LocalDateTime) {
+        val duration = ElapsedTime.durationSince(lastSmoked = lastEntry?.createdAt, now = now)
+        binding.timerLabel.text = duration?.let(ElapsedTime::format) ?: getString(R.string.home_no_smoked_entries)
+        binding.timerLabel.setTextColor(
+            if (ElapsedTime.isBelowThreshold(duration, thresholdMinutes)) {
+                ContextCompat.getColor(requireContext(), R.color.home_timer_warning)
+            } else {
+                MaterialColors.getColor(binding.timerLabel, com.google.android.material.R.attr.colorOnSurface)
             }
         )
-        recyclerviewHistory.layoutManager = LinearLayoutManager(requireContext())
-        recyclerviewHistory.adapter = adapter
-    }
-
-    private suspend fun loadHistory(updateWidgets: Boolean = true) = binding.apply {
-        val state = viewModel.getState()
-        lastEntry = state.lastEntry
-
-        currentDay.text = LocalizationHelper.getDayOfWeekName(dayOfWeek = state.selectedDate.dayOfWeek)
-        currentDate.text = LocalizationHelper.formatDate(date = state.selectedDate)
-        dailyValue.text = state.dailyCount.toString()
-        weeklyValue.text = state.weeklyCount.toString()
-        monthlyValue.text = state.monthlyCount.toString()
-
-        updateTimerLabel(entry = lastEntry)
-
-        state.history.let {
-            recyclerviewHistory.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
-            layoutEmptyHistory.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-
-            adapter.submitList(it) {
-                recyclerviewHistory.scrollToPosition(0)
-            }
-        }
-        if (updateWidgets) WidgetHelper.updateAllWidgets(context = requireContext())
-    }
-
-    private fun startTimer() {
-        timerJob?.cancel()
-        timerJob = viewLifecycleOwner.lifecycleScope.launch {
-            while (isActive) {
-                updateTimerLabel(lastEntry)
-                delay(duration = 1000.milliseconds)
-            }
-        }
-    }
-
-    private fun stopTimer() {
-        timerJob?.cancel()
-        timerJob = null
-    }
-
-    private fun updateTimerLabel(
-        entry: HistoryEntity?
-    ) = binding.apply {
-        val duration = entry?.createdAt?.let { createdAt ->
-            Duration.between(createdAt, LocalDateTime.now())
-        }
-        timerLabel.text = TimeHelper.formatDuration(resources = resources, duration = duration)
     }
 }

@@ -75,7 +75,7 @@
     <string name="restore_popup_file">Datoteka: %1$s</string>
     <string name="restore_popup_file_none">Nobena</string>
     <string name="restore_popup_file_unknown">Neznano</string>
-    <string name="application_name">Sledilnik Kajenja</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_more">Več</string>
     <string name="more_progress">Napredek</string>
     <string name="more_tools_calculator">Kalkulator</string>

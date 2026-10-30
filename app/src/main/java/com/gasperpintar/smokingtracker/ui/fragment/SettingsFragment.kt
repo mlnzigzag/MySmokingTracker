@@ -28,8 +28,10 @@ import com.gasperpintar.smokingtracker.provider.StatsWidget
 import com.gasperpintar.smokingtracker.type.Widget
 import com.gasperpintar.smokingtracker.ui.bar.ProgressType
 import com.gasperpintar.smokingtracker.ui.dialog.DialogManager
+import com.gasperpintar.smokingtracker.utils.ElapsedTimePreferences
 import com.gasperpintar.smokingtracker.utils.FileHelper
 import com.gasperpintar.smokingtracker.utils.LocalizationHelper
+import com.gasperpintar.smokingtracker.utils.WidgetHelper
 import com.gasperpintar.smokingtracker.utils.WebHelper.openUrl
 import kotlinx.coroutines.launch
 import java.io.File
@@ -43,6 +45,7 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
         ModelFactory(container = (requireActivity().application as Application).container)
     }
 
+    private val elapsedTimePreferences by lazy { ElapsedTimePreferences(requireContext()) }
     private lateinit var exportDocumentLauncher: ActivityResultLauncher<String>
     private lateinit var importDocumentLauncher: ActivityResultLauncher<Array<String>>
 
@@ -122,6 +125,15 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
             }
         }
 
+        elapsedThresholdLayout.setOnClickListener {
+            DialogManager.showElapsedThresholdDialog(
+                context = requireActivity(), currentMinutes = elapsedTimePreferences.getThresholdMinutes()
+            ) { thresholdMinutes ->
+                elapsedTimePreferences.setThresholdMinutes(thresholdMinutes)
+                updateUi(state = state)
+            }
+        }
+
         widgetsLayout.setOnClickListener {
             DialogManager.showWidgetsDialog(context = requireActivity()) { widget ->
                 val appWidgetManager = AppWidgetManager.getInstance(requireContext())
@@ -179,6 +191,9 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
             .getOrElse(resources.getStringArray(R.array.language_values)
                 .indexOf(state.settings.language)
             ) { "system" }
+        elapsedTimePreferences.getThresholdMinutes().let { minutes ->
+            elapsedThresholdService.text = resources.getQuantityString(R.plurals.time_minutes, minutes, minutes)
+        }
     }
 
     private fun setupDataManagement() = binding.apply {
@@ -253,6 +268,7 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
                 fileUri = uri,
                 onProgress = dialog::updateProgress,
                 onFinished = {
+                    WidgetHelper.updateAllWidgets(context = requireContext())
                     dialog.dismiss()
                     requireActivity().recreate()
                 },

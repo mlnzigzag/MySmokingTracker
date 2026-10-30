@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:orientation="vertical" android:paddingVertical="4dp">
+    <EditText android:id="@+id/input_threshold" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="48dp" android:autofillHints="none" android:gravity="center"
+        android:hint="@string/settings_elapsed_threshold_hint" android:importantForAutofill="no" android:inputType="number"
+        android:selectAllOnFocus="true" style="@style/EditText" />
+    <TextView android:id="@+id/threshold_error" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:gravity="center" android:text="@string/settings_elapsed_threshold_error"
+        android:textColor="?attr/colorError" android:visibility="gone" style="@style/BodyTextView" />
+</LinearLayout>

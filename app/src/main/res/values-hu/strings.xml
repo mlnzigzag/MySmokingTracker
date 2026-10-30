@@ -4,7 +4,7 @@
     <string name="home_timer_hour">ó</string>
     <string name="home_timer_minute">p</string>
     <string name="home_timer_second">mp</string>
-    <string name="application_name">Dohányzás napló</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="application_tagline">Kövesd. Elemezd. Fejlődj.</string>
     <string name="navigation_home">Főoldal</string>
     <string name="navigation_graph">Grafikon</string>

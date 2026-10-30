@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_name">Smoking Tracker</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="application_tagline">Track. Analyze. Progress.</string>
 
     <string name="navigation_home">Home</string>
+    <string name="navigation_details">Details</string>
     <string name="navigation_graph">Graph</string>
     <string name="navigation_more">More</string>
     <string name="navigation_settings">Settings</string>
@@ -24,6 +25,13 @@
     <string name="home_delete">Delete record</string>
     <string name="home_no_entries">No entries found for this day</string>
     <string name="home_no_entries_message">Click the \"Add new entry\" button to add a new entry</string>
+    <string name="home_elapsed_time_label">Time since your last cigarette</string>
+    <string name="home_add_cigarette">Add cigarette</string>
+    <string name="home_cigarettes_today">Cigarettes today</string>
+    <string name="home_no_smoked_entries">No cigarette recorded yet</string>
+    <string name="home_add_success">Cigarette added</string>
+    <string name="home_add_error">Could not add the cigarette. Please try again.</string>
+    <string name="home_load_error">Could not load your data. Please try again.</string>
 
     <string name="graph_daily">Daily Overview (%1$d)</string>
     <string name="graph_weekly">Weekly Overview (%1$d)</string>
@@ -139,6 +147,10 @@
     <string name="settings_general_notifications_description">Stay informed with notifications and alerts</string>
     <string name="settings_general_day_end_hour">Day end hour</string>
     <string name="settings_general_day_end_hour_description">Set when your day ends</string>
+    <string name="settings_elapsed_threshold">Elapsed-time warning threshold</string>
+    <string name="settings_elapsed_threshold_dialog_description">Enter 1–10,080 minutes (up to 7 days).</string>
+    <string name="settings_elapsed_threshold_hint">Minutes</string>
+    <string name="settings_elapsed_threshold_error">Enter a whole number from 1 to 10,080.</string>
     <string name="settings_general_widgets">Widgets</string>
     <string name="settings_general_widgets_description">Add widgets to the home screen</string>
 

@@ -59,7 +59,7 @@
     <string name="notifications_popup_frequency_daily">Ежедневно</string>
     <string name="notifications_popup_frequency_weekly">Еженедельно</string>
     <string name="notifications_popup_check_box_system">Системные</string>
-    <string name="application_name">Трекер Курения</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="home_timer_message">Времени прошло после последней сигареты</string>
     <string name="home_monthly">За месяц</string>
     <string name="home_previous_day">Предыдущий день</string>

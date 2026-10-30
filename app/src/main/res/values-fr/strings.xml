@@ -4,7 +4,7 @@
     <string name="home_timer_hour">h</string>
     <string name="home_timer_minute">min</string>
     <string name="home_timer_second">s</string>
-    <string name="application_name">Traqueur de tabagisme</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_home">Principal</string>
     <string name="navigation_graph">Graphique</string>
     <string name="navigation_more">Analytique</string>

@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_timer_day">g</string>
-    <string name="home_timer_hour">h</string>
-    <string name="home_timer_minute">min</string>
-    <string name="home_timer_second">s</string>
+    <string name="navigation_details">Dettagli</string>
+    <string name="home_timer_day">g</string><string name="home_timer_hour">h</string>
+    <string name="home_timer_minute">min</string><string name="home_timer_second">s</string>
+    <string name="home_elapsed_time_label">Tempo trascorso dall’ultima sigaretta</string>
+    <string name="home_add_cigarette">Aggiungi sigaretta</string>
+    <string name="home_cigarettes_today">Sigarette di oggi</string>
+    <string name="home_no_smoked_entries">Nessuna sigaretta ancora registrata</string>
+    <string name="home_add_success">Sigaretta aggiunta</string>
+    <string name="home_add_error">Impossibile aggiungere la sigaretta. Riprova.</string>
+    <string name="home_load_error">Impossibile caricare i dati. Riprova.</string>
+    <string name="settings_elapsed_threshold">Soglia di avviso tempo trascorso</string>
+    <string name="settings_elapsed_threshold_dialog_description">Inserisci da 1 a 10.080 minuti (fino a 7 giorni).</string>
+    <string name="settings_elapsed_threshold_hint">Minuti</string>
+    <string name="settings_elapsed_threshold_error">Inserisci un numero intero da 1 a 10.080.</string>
 </resources>

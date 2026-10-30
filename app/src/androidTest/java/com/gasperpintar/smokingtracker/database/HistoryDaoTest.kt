@@ -54,6 +54,18 @@ class HistoryDaoTest {
     }
 
     @Test
+    fun getSmokedCountBetweenExcludesLentWithoutChangingExistingCount() = runBlocking {
+        val start = LocalDateTime.of(2026, 1, 1, 2, 0)
+        val end = start.plusDays(1)
+        insert(start)
+        insert(start.plusHours(1), lent = true)
+        insert(start.plusHours(2))
+        insert(end)
+        assertEquals(3, historyDao.getCountBetween(start = start, end = end))
+        assertEquals(2, historyDao.getSmokedCountBetween(start = start, end = end))
+    }
+
+    @Test
     fun getAveragePerDayReturnsZeroWithoutHistory() = runBlocking {
         assertEquals(0.0, historyDao.getAveragePerDay(), 0.0)
     }

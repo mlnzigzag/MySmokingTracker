@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_name">吸烟记录</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_home">首页</string>
     <string name="navigation_graph">图表</string>
     <string name="navigation_more">进展</string>

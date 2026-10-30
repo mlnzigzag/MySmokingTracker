@@ -7,6 +7,11 @@
         android:title="@string/navigation_home" />
 
     <item
+        android:id="@+id/navigation_details"
+        android:icon="@drawable/history_48px"
+        android:title="@string/navigation_details" />
+
+    <item
         android:id="@+id/navigation_graph"
         android:icon="@drawable/bar_chart_48px"
         android:title="@string/navigation_graph" />

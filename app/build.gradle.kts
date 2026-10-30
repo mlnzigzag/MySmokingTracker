@@ -18,7 +18,7 @@ configure<ApplicationExtension> {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.gasperpintar.smokingtracker"
+        applicationId = "com.mlnzigzag.mysmokingtracker"
         minSdk = 26
         targetSdk = 37
         versionCode = 17

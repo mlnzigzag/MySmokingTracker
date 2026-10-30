@@ -5,7 +5,7 @@
     <string name="home_timer_hour">ч</string>
     <string name="home_timer_minute">м</string>
     <string name="home_timer_second">с</string>
-    <string name="application_name">Праћење Пушења</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_graph">Графикон</string>
     <string name="navigation_more">Аналитика</string>
     <string name="navigation_settings">Подешавања</string>

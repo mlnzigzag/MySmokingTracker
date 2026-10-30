@@ -19,7 +19,7 @@ import androidx.core.content.getSystemService
 object Notifications {
 
     private const val CHANNEL_ID = "smoking_tracker_channel"
-    private const val CHANNEL_NAME = "Smoking Tracker Notifications"
+    private const val CHANNEL_NAME = "MySmokingTracker Notifications"
     private const val CHANNEL_DESCRIPTION = "Smoking monitoring notifications"
 
     fun createNotificationChannel(context: Context) {

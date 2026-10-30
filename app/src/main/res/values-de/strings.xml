@@ -4,7 +4,7 @@
     <string name="home_timer_hour">Std.</string>
     <string name="home_timer_minute">Min.</string>
     <string name="home_timer_second">Sek.</string>
-    <string name="application_name">Zigarettentracker</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_home">Heim</string>
     <string name="navigation_graph">Graphen</string>
     <string name="navigation_more">Analytik</string>

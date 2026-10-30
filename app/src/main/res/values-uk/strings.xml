@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="application_name">Трекер Куріння</string>
+    <string name="application_name">MySmokingTracker</string>
     <string name="navigation_home">Головна</string>
     <string name="navigation_graph">Діаграма</string>
     <string name="navigation_more">Аналітика</string>
