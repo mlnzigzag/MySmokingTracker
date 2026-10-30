@@ -149,9 +149,9 @@ jobs:
           if [ "${{ github.event_name }}" = "schedule" ] ||
             [ "${{ github.event_name }}" = "workflow_dispatch" ] ||
             [ "${{ github.event_name }}" = "workflow_call" ]; then
-            echo 'matrix={"include":[{"name":"API ${{ vars.ANDROID_API_TARGET || '37' }}","api-level":${{ vars.ANDROID_API_TARGET || '37' }},"target":"aosp_atd"},{"name":"API ${{ vars.ANDROID_API_MIN || '26' }}","api-level":${{ vars.ANDROID_API_MIN || '26' }},"target":"default"}]}' >> "$GITHUB_OUTPUT"
+            echo 'matrix={"include":[{"name":"API ${{ vars.ANDROID_API_TARGET || '37.0' }}","api-level":"${{ vars.ANDROID_API_TARGET || '37.0' }}","target":"aosp_atd"},{"name":"API ${{ vars.ANDROID_API_MIN || '26' }}","api-level":"${{ vars.ANDROID_API_MIN || '26' }}","target":"default"}]}' >> "$GITHUB_OUTPUT"
           else
-            echo 'matrix={"include":[{"name":"API ${{ vars.ANDROID_API_TARGET || '37' }}","api-level":${{ vars.ANDROID_API_TARGET || '37' }},"target":"aosp_atd"}]}' >> "$GITHUB_OUTPUT"
+            echo 'matrix={"include":[{"name":"API ${{ vars.ANDROID_API_TARGET || '37.0' }}","api-level":"${{ vars.ANDROID_API_TARGET || '37.0' }}","target":"aosp_atd"}]}' >> "$GITHUB_OUTPUT"
           fi
 
   androidTest:
