@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.net.Uri
 import android.widget.TextView
@@ -30,6 +31,7 @@ import com.gasperpintar.smokingtracker.ui.bar.ProgressType
 import com.gasperpintar.smokingtracker.ui.dialog.DialogManager
 import com.gasperpintar.smokingtracker.utils.ElapsedTimePreferences
 import com.gasperpintar.smokingtracker.utils.FileHelper
+import com.gasperpintar.smokingtracker.utils.HomeButtonColor
 import com.gasperpintar.smokingtracker.utils.LocalizationHelper
 import com.gasperpintar.smokingtracker.utils.WidgetHelper
 import com.gasperpintar.smokingtracker.utils.WebHelper.openUrl
@@ -134,6 +136,15 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
             }
         }
 
+        addButtonColorLayout.setOnClickListener {
+            DialogManager.showAddButtonColorDialog(
+                context = requireActivity(), selectedColor = elapsedTimePreferences.getAddButtonColor()
+            ) { color ->
+                elapsedTimePreferences.setAddButtonColor(color)
+                updateUi(state = state)
+            }
+        }
+
         widgetsLayout.setOnClickListener {
             DialogManager.showWidgetsDialog(context = requireActivity()) { widget ->
                 val appWidgetManager = AppWidgetManager.getInstance(requireContext())
@@ -194,6 +205,10 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
         elapsedTimePreferences.getThresholdMinutes().let { minutes ->
             elapsedThresholdService.text = resources.getQuantityString(R.plurals.time_minutes, minutes, minutes)
         }
+        val addButtonColor = HomeButtonColor.fromValue(elapsedTimePreferences.getAddButtonColor())
+            ?: HomeButtonColor.DEFAULT
+        addButtonColorService.setText(addButtonColor.labelRes)
+        addButtonColorPreview.backgroundTintList = ColorStateList.valueOf(addButtonColor.colorValue)
     }
 
     private fun setupDataManagement() = binding.apply {
@@ -233,7 +248,7 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
         importDocumentLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri ?: return@registerForActivityResult
             if (::selectedFile.isInitialized) {
-                val fileName = FileHelper.getFileName(context = requireActivity(), uri)
+                val fileName = FileHelper.getFileName(context = requireContext(), uri)
                 selectedFile.text = getString(R.string.restore_popup_file, fileName)
                 selectedFile.tag = uri
             }
@@ -264,7 +279,7 @@ class SettingsFragment : Base<FragmentSettingsBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.restoreFile(
-                context = requireActivity(),
+                context = requireContext(),
                 fileUri = uri,
                 onProgress = dialog::updateProgress,
                 onFinished = {

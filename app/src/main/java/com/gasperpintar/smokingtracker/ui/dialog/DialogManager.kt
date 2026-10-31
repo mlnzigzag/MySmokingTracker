@@ -20,6 +20,7 @@ import com.gasperpintar.smokingtracker.database.entity.SettingsEntity
 import com.gasperpintar.smokingtracker.database.model.CostEntry
 import com.gasperpintar.smokingtracker.database.model.HistoryEntry
 import com.gasperpintar.smokingtracker.databinding.ContainerContentCostBinding
+import com.gasperpintar.smokingtracker.databinding.DialogContentAddButtonColorBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentChangelogBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentCostsBinding
 import com.gasperpintar.smokingtracker.databinding.DialogContentCurrencyBinding
@@ -39,6 +40,7 @@ import com.gasperpintar.smokingtracker.ui.adapter.Adapter
 import com.gasperpintar.smokingtracker.ui.bar.LoadingDialog
 import com.gasperpintar.smokingtracker.ui.container.ContainerManager
 import com.gasperpintar.smokingtracker.utils.ElapsedTime
+import com.gasperpintar.smokingtracker.utils.HomeButtonColor
 import com.gasperpintar.smokingtracker.utils.LocalizationHelper
 import com.gasperpintar.smokingtracker.utils.TimeHelper
 import com.gasperpintar.smokingtracker.utils.TimeHelper.toLocalDate
@@ -233,6 +235,31 @@ object DialogManager {
             }
         }
         content.inputThreshold.doAfterTextChanged { content.thresholdError.isGone = true }
+    }
+
+    fun showAddButtonColorDialog(
+        context: FragmentActivity,
+        selectedColor: Int,
+        onSuccess: (Int) -> Unit
+    ) = BaseDialog.show(context = context, inflate = DialogContentAddButtonColorBinding::inflate) { content ->
+        binding.title.setText(R.string.settings_add_button_color)
+        binding.message.setText(R.string.settings_add_button_color_dialog_description)
+
+        val options = listOf(
+            content.checkboxOrange to HomeButtonColor.ORANGE,
+            content.checkboxBlue to HomeButtonColor.BLUE,
+            content.checkboxGreen to HomeButtonColor.GREEN,
+            content.checkboxPurple to HomeButtonColor.PURPLE,
+            content.checkboxRed to HomeButtonColor.RED,
+            content.checkboxGray to HomeButtonColor.GRAY
+        )
+        options.forEach { (checkbox, color) ->
+            checkbox.isChecked = color.colorValue == selectedColor
+            checkbox.setOnClickListener {
+                onSuccess(color.colorValue)
+                dismiss()
+            }
+        }
     }
 
     fun showWidgetsDialog(
