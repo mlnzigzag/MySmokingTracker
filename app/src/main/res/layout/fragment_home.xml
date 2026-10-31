@@ -1,31 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:fillViewport="true" android:clipToPadding="false">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:orientation="vertical" android:paddingHorizontal="24dp" android:paddingVertical="16dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" android:gravity="center" android:orientation="vertical" android:padding="12dp">
-            <TextView android:id="@+id/timer_label" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:gravity="center" android:maxLines="2" android:textColor="?attr/colorOnSurface"
-                android:textSize="44sp" android:textStyle="bold" tools:text="00:42:18" />
-            <TextView android:id="@+id/timer_message" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="4dp" android:gravity="center" android:text="@string/home_elapsed_time_label"
-                style="@style/BodyTextView" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="840dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="16dp">
+
+        <LinearLayout
+            android:id="@+id/timer_region"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/timer_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="64sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="64sp"
+                app:autoSizeMinTextSize="32sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                tools:text="00:42:18" />
+
+            <TextView
+                android:id="@+id/timer_message"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/home_elapsed_time_label" />
         </LinearLayout>
-        <com.google.android.material.button.MaterialButton android:id="@+id/button_add_cigarette"
-            android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="88dp"
-            android:paddingVertical="20dp" android:text="@string/home_add_cigarette" android:textColor="@color/home_orange_text"
-            android:textSize="20sp" android:textStyle="bold" app:backgroundTint="@color/home_orange" app:cornerRadius="16dp" />
-        <LinearLayout android:id="@+id/today_counter_region" android:layout_width="match_parent" android:layout_height="0dp"
-            android:layout_weight="1" android:layout_marginTop="20dp" android:minHeight="140dp" android:gravity="center"
-            android:orientation="vertical" android:padding="16dp">
-            <TextView android:id="@+id/today_count" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:accessibilityLiveRegion="polite" android:gravity="center" android:maxLines="1"
-                android:textColor="?attr/colorOnSurface" android:textSize="88sp" android:textStyle="bold" tools:text="12" />
-            <TextView android:id="@+id/today_count_label" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:gravity="center" android:text="@string/home_cigarettes_today" style="@style/SubtitleTextView" />
+
+        <LinearLayout
+            android:id="@+id/add_button_region"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_add_cigarette"
+                android:layout_width="match_parent"
+                android:layout_height="264dp"
+                android:maxLines="2"
+                android:minHeight="264dp"
+                android:padding="24dp"
+                android:text="@string/home_add_cigarette"
+                android:textColor="@color/home_orange_text"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/home_orange"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/today_counter_region"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/today_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityLiveRegion="polite"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="180sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="180sp"
+                app:autoSizeMinTextSize="40sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                tools:text="12" />
+
+            <TextView
+                android:id="@+id/today_count_label"
+                style="@style/SubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/home_cigarettes_today" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

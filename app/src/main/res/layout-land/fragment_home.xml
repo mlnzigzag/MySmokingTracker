@@ -1,322 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_counter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
-            style="@style/Card">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/timer_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="%1$02d:%2$02d:%3$02d"
-                    style="@style/SpecialTitleTextView"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:id="@+id/timer_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_timer_message"
-                    android:gravity="center"
-                    style="@style/BodyTextView" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        android:minHeight="840dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="16dp">
 
         <LinearLayout
-            android:id="@+id/layout_timeline"
+            android:id="@+id/timer_region"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/timer_label"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                style="@style/Card">
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="64sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="64sp"
+                app:autoSizeMinTextSize="32sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                tools:text="00:42:18" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:padding="12dp">
-
-                    <com.gasperpintar.smokingtracker.ui.MarqueeTextView
-                        android:id="@+id/daily_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_daily"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/SubtitleTextView" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOnSurface" />
-
-                    <TextView
-                        android:id="@+id/daily_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/BodyTextView"
-                        tools:ignore="HardcodedText" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/timer_message"
+                style="@style/BodyTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                style="@style/Card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:padding="12dp">
-
-                    <com.gasperpintar.smokingtracker.ui.MarqueeTextView
-                        android:id="@+id/weekly_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_weekly"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/SubtitleTextView" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOnSurface" />
-
-                    <TextView
-                        android:id="@+id/weekly_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/BodyTextView"
-                        tools:ignore="HardcodedText" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                style="@style/Card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:padding="12dp">
-
-                    <com.gasperpintar.smokingtracker.ui.MarqueeTextView
-                        android:id="@+id/monthly_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_monthly"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/SubtitleTextView" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOnSurface" />
-
-                    <TextView
-                        android:id="@+id/monthly_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        style="@style/BodyTextView"
-                        tools:ignore="HardcodedText" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/home_elapsed_time_label" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_day_navigation"
+        <LinearLayout
+            android:id="@+id/add_button_region"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
-            style="@style/Card">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/day_navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp">
-
-                <ImageButton
-                    android:id="@+id/previous_day"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/home_previous_day"
-                    android:src="@drawable/arrow_circle_left_48px"
-                    android:padding="0dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    app:tint="?attr/colorOnSurface" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="170dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/current_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Day"
-                        android:gravity="center"
-                        style="@style/SubtitleTextView"
-                        tools:ignore="HardcodedText" />
-
-                    <TextView
-                        android:id="@+id/current_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="%1$02d.%2$02d.%3$d"
-                        android:gravity="center"
-                        android:layout_marginTop="-5dp"
-                        style="@style/MainTitleCenterTextView"
-                        tools:ignore="HardcodedText" />
-
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/next_day"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/home_next_day"
-                    android:src="@drawable/arrow_circle_right_48px"
-                    android:padding="0dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    app:tint="?attr/colorOnSurface"
-                    tools:ignore="DuplicateSpeakableTextCheck" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_recyclerview_history"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
-            style="@style/Card">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_history"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_add_cigarette"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp" />
-
-            <LinearLayout
-                android:id="@+id/layout_empty_history"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:layout_height="264dp"
+                android:maxLines="2"
+                android:minHeight="264dp"
                 android:padding="24dp"
-                android:visibility="gone">
+                android:text="@string/home_add_cigarette"
+                android:textColor="@color/home_orange_text"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/home_orange"
+                app:cornerRadius="24dp" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/empty_history_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_no_entries"
-                    android:gravity="center"
-                    style="@style/MainTitleCenterTextView" />
+        <LinearLayout
+            android:id="@+id/today_counter_region"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/empty_history_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_no_entries_message"
-                    android:gravity="center"
-                    style="@style/BodyTextView" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_button_add_entry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center_horizontal"
-            style="@style/Card">
-
-            <Button
-                android:id="@+id/button_add_entry"
+            <TextView
+                android:id="@+id/today_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/home_next_day"
-                android:text="@string/home_add_entry"
-                style="@style/Button" />
+                android:accessibilityLiveRegion="polite"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="180sp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="180sp"
+                app:autoSizeMinTextSize="40sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                tools:text="12" />
 
-        </androidx.cardview.widget.CardView>
-
+            <TextView
+                android:id="@+id/today_count_label"
+                style="@style/SubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/home_cigarettes_today" />
+        </LinearLayout>
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

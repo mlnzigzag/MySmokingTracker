@@ -17,8 +17,19 @@ class ElapsedTimePreferences(context: Context) {
         preferences.edit { putInt(THRESHOLD_KEY, value) }
     }
 
+    fun getAddButtonColor(): Int {
+        val value = preferences.getInt(ADD_BUTTON_COLOR_KEY, HomeButtonColor.DEFAULT.colorValue)
+        return HomeButtonColor.fromValue(value)?.colorValue ?: HomeButtonColor.DEFAULT.colorValue
+    }
+
+    fun setAddButtonColor(value: Int) {
+        require(HomeButtonColor.fromValue(value) != null) { "Unsupported Add button color" }
+        preferences.edit { putInt(ADD_BUTTON_COLOR_KEY, value) }
+    }
+
     private companion object {
         const val FILE_NAME = "my_smoking_tracker_settings"
         const val THRESHOLD_KEY = "elapsed_time_warning_threshold_minutes"
+        const val ADD_BUTTON_COLOR_KEY = "add_button_color"
     }
 }

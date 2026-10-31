@@ -19,6 +19,9 @@ import com.gasperpintar.smokingtracker.database.entity.HistoryEntity
 import com.gasperpintar.smokingtracker.database.entity.SettingsEntity
 import com.gasperpintar.smokingtracker.database.repository.HistoryRepository
 import com.gasperpintar.smokingtracker.database.repository.SettingsRepository
+import com.gasperpintar.smokingtracker.utils.ElapsedTimePreferences
+import com.gasperpintar.smokingtracker.utils.HomeButtonColor
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -42,6 +45,7 @@ class HomeFragmentTest {
         settingsRepository.get()?.let {
             settingsRepository.update(it.copy(dayEndMinutes = 0))
         } ?: settingsRepository.insert(SettingsEntity.default().copy(dayEndMinutes = 0))
+        ElapsedTimePreferences(context).setAddButtonColor(HomeButtonColor.DEFAULT.colorValue)
     }
 
     @Test
@@ -67,6 +71,41 @@ class HomeFragmentTest {
             }
         }
     }
+
+    @Test
+    fun homeUsesThreeEqualSectionsAndTripleHeightButton() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
+            scenario.onActivity { activity ->
+                val timer = activity.findViewById<android.view.View>(R.id.timer_region)
+                val addRegion = activity.findViewById<android.view.View>(R.id.add_button_region)
+                val counter = activity.findViewById<android.view.View>(R.id.today_counter_region)
+                val button = activity.findViewById<MaterialButton>(R.id.button_add_cigarette)
+                val expectedButtonHeight = (264 * resourcesDisplayDensity()).toInt()
+
+                assertTrue(kotlin.math.abs(timer.height - addRegion.height) <= 2)
+                assertTrue(kotlin.math.abs(addRegion.height - counter.height) <= 2)
+                assertEquals(expectedButtonHeight, button.height)
+                assertEquals(
+                    HomeButtonColor.DEFAULT.colorValue,
+                    button.backgroundTintList?.defaultColor
+                )
+            }
+        }
+    }
+
+    @Test
+    fun selectedAddButtonColorIsApplied() {
+        ElapsedTimePreferences(context).setAddButtonColor(HomeButtonColor.BLUE.colorValue)
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val button = activity.findViewById<MaterialButton>(R.id.button_add_cigarette)
+                assertEquals(HomeButtonColor.BLUE.colorValue, button.backgroundTintList?.defaultColor)
+            }
+        }
+    }
+
+    private fun resourcesDisplayDensity(): Float = context.resources.displayMetrics.density
 
     private fun awaitEntries(): List<HistoryEntity> {
         repeat(50) {

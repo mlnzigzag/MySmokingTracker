@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="4dp">
+
+        <CheckBox
+            android:id="@+id/checkbox_orange"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_orange"
+            app:buttonTint="@color/home_button_orange" />
+
+        <CheckBox
+            android:id="@+id/checkbox_blue"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_blue"
+            app:buttonTint="@color/home_button_blue" />
+
+        <CheckBox
+            android:id="@+id/checkbox_green"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_green"
+            app:buttonTint="@color/home_button_green" />
+
+        <CheckBox
+            android:id="@+id/checkbox_purple"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_purple"
+            app:buttonTint="@color/home_button_purple" />
+
+        <CheckBox
+            android:id="@+id/checkbox_red"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_red"
+            app:buttonTint="@color/home_button_red" />
+
+        <CheckBox
+            android:id="@+id/checkbox_gray"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button_color_gray"
+            app:buttonTint="@color/home_button_gray" />
+    </LinearLayout>
+</ScrollView>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_details">Dettagli</string>
+    <string name="navigation_details">Avanzate</string>
     <string name="home_timer_day">g</string><string name="home_timer_hour">h</string>
     <string name="home_timer_minute">min</string><string name="home_timer_second">s</string>
     <string name="home_elapsed_time_label">Tempo trascorso dall’ultima sigaretta</string>
@@ -14,4 +14,12 @@
     <string name="settings_elapsed_threshold_dialog_description">Inserisci da 1 a 10.080 minuti (fino a 7 giorni).</string>
     <string name="settings_elapsed_threshold_hint">Minuti</string>
     <string name="settings_elapsed_threshold_error">Inserisci un numero intero da 1 a 10.080.</string>
+    <string name="settings_add_button_color">Colore del pulsante Aggiungi</string>
+    <string name="settings_add_button_color_dialog_description">Scegli il colore del pulsante Aggiungi sigaretta nella Home.</string>
+    <string name="home_button_color_orange">Arancione</string>
+    <string name="home_button_color_blue">Blu</string>
+    <string name="home_button_color_green">Verde</string>
+    <string name="home_button_color_purple">Viola</string>
+    <string name="home_button_color_red">Rosso</string>
+    <string name="home_button_color_gray">Grigio</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.gasperpintar.smokingtracker.ui.fragment
 
+import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -72,6 +73,8 @@ class HomeFragment : Base<FragmentHomeBinding>(bindingInflater = FragmentHomeBin
     override fun onResume() {
         super.onResume()
         thresholdMinutes = elapsedTimePreferences.getThresholdMinutes()
+        binding.buttonAddCigarette?.backgroundTintList =
+            ColorStateList.valueOf(elapsedTimePreferences.getAddButtonColor())
         refreshHome()
     }
 

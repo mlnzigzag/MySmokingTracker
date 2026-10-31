@@ -1,0 +1,6 @@
+MySmokingTracker 1.9.2 Release Candidate 1
+
+- Refined the Minimal Home into three equal sections.
+- Enlarged the elapsed-time counter, Add cigarette button, and daily counter.
+- Added a configurable Add button color, retaining orange as the default.
+- Renamed the Details tab to Advanced.

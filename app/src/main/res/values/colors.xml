@@ -18,6 +18,12 @@
     <color name="links">#64B5F6</color>
     <color name="home_orange">#B95000</color>
     <color name="home_orange_text">#FFFFFF</color>
+    <color name="home_button_orange">#B95000</color>
+    <color name="home_button_blue">#1565C0</color>
+    <color name="home_button_green">#2E7D32</color>
+    <color name="home_button_purple">#6A1B9A</color>
+    <color name="home_button_red">#B71C1C</color>
+    <color name="home_button_gray">#455A64</color>
     <color name="home_timer_warning">#B91C1C</color>
 
     <!--<color name="sentiment_yellow">#F2D335</color>-->

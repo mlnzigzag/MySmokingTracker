@@ -1,0 +1,6 @@
+MySmokingTracker 1.9.2 Release Candidate 1
+
+- Pregled Minimal Home je razdeljen na tri enake dele.
+- Povečani so časovnik, gumb za dodajanje cigarete in dnevni števec.
+- Dodana je izbira barve gumba; privzeta barva ostaja oranžna.
+- Zavihek Details je preimenovan v Advanced.
