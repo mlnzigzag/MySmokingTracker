@@ -1,0 +1,4 @@
+MySmokingTracker 1.9.2 Release Candidate 2
+
+- Made the three Home sections fit the available screen height without forced scrolling.
+- Made the Add cigarette button adapt to the middle section.

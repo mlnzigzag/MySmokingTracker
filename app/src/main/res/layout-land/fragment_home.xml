@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="840dp"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingVertical="16dp">
@@ -62,9 +61,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_add_cigarette"
                 android:layout_width="match_parent"
-                android:layout_height="264dp"
+                android:layout_height="match_parent"
                 android:maxLines="2"
-                android:minHeight="264dp"
+                android:minHeight="0dp"
                 android:padding="24dp"
                 android:text="@string/home_add_cigarette"
                 android:textColor="@color/home_orange_text"

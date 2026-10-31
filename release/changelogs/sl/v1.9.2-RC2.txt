@@ -1,0 +1,4 @@
+MySmokingTracker 1.9.2 Release Candidate 2
+
+- Trije deli zaslona Home se zdaj prilagodijo razpoložljivi višini brez prisilnega drsenja.
+- Gumb za dodajanje cigarete se prilagodi srednjemu delu zaslona.

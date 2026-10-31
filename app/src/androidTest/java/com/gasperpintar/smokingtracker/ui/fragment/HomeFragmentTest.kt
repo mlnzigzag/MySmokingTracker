@@ -73,7 +73,7 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun homeUsesThreeEqualSectionsAndTripleHeightButton() {
+    fun homeUsesThreeEqualSectionsAndAdaptiveButton() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
             scenario.onActivity { activity ->
@@ -81,10 +81,11 @@ class HomeFragmentTest {
                 val addRegion = activity.findViewById<android.view.View>(R.id.add_button_region)
                 val counter = activity.findViewById<android.view.View>(R.id.today_counter_region)
                 val button = activity.findViewById<MaterialButton>(R.id.button_add_cigarette)
-                val expectedButtonHeight = (264 * resourcesDisplayDensity()).toInt()
+                val expectedButtonHeight = addRegion.height - addRegion.paddingTop - addRegion.paddingBottom
 
                 assertTrue(kotlin.math.abs(timer.height - addRegion.height) <= 2)
                 assertTrue(kotlin.math.abs(addRegion.height - counter.height) <= 2)
+                assertTrue(counter.bottom <= pagerHeight(activity) + 2)
                 assertEquals(expectedButtonHeight, button.height)
                 assertEquals(
                     HomeButtonColor.DEFAULT.colorValue,
@@ -105,7 +106,8 @@ class HomeFragmentTest {
         }
     }
 
-    private fun resourcesDisplayDensity(): Float = context.resources.displayMetrics.density
+    private fun pagerHeight(activity: MainActivity): Int =
+        activity.findViewById<android.view.View>(R.id.main_view_pager).height
 
     private fun awaitEntries(): List<HistoryEntity> {
         repeat(50) {

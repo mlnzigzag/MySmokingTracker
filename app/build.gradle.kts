@@ -21,8 +21,8 @@ configure<ApplicationExtension> {
         applicationId = "com.mlnzigzag.mysmokingtracker"
         minSdk = 26
         targetSdk = 37
-        versionCode = 18
-        versionName = "1.9.2-RC1"
+        versionCode = 19
+        versionName = "1.9.2-RC2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
