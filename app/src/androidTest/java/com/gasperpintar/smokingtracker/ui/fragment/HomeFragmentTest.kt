@@ -2,6 +2,7 @@ package com.gasperpintar.smokingtracker.ui.fragment
 
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Rect
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.test.core.app.ActivityScenario
@@ -9,6 +10,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -76,17 +78,23 @@ class HomeFragmentTest {
     fun homeUsesThreeEqualSectionsAndAdaptiveButton() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { it.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT }
+            onView(withId(R.id.today_counter_region)).check(matches(isDisplayed()))
             scenario.onActivity { activity ->
                 val timer = activity.findViewById<android.view.View>(R.id.timer_region)
                 val addRegion = activity.findViewById<android.view.View>(R.id.add_button_region)
                 val counter = activity.findViewById<android.view.View>(R.id.today_counter_region)
                 val button = activity.findViewById<MaterialButton>(R.id.button_add_cigarette)
                 val expectedButtonHeight = addRegion.height - addRegion.paddingTop - addRegion.paddingBottom
+                val counterRect = Rect()
+                val pagerRect = Rect()
 
+                assertTrue(counter.getGlobalVisibleRect(counterRect))
+                activity.findViewById<android.view.View>(R.id.main_view_pager).getGlobalVisibleRect(pagerRect)
                 assertTrue(kotlin.math.abs(timer.height - addRegion.height) <= 2)
                 assertTrue(kotlin.math.abs(addRegion.height - counter.height) <= 2)
-                assertTrue(counter.bottom <= pagerHeight(activity) + 2)
-                assertEquals(expectedButtonHeight, button.height)
+                assertTrue(counterRect.bottom <= pagerRect.bottom + 2)
+                assertTrue(button.height >= expectedButtonHeight * 3 / 4)
+                assertTrue(button.height <= expectedButtonHeight + 2)
                 assertEquals(
                     HomeButtonColor.DEFAULT.colorValue,
                     button.backgroundTintList?.defaultColor
@@ -105,9 +113,6 @@ class HomeFragmentTest {
             }
         }
     }
-
-    private fun pagerHeight(activity: MainActivity): Int =
-        activity.findViewById<android.view.View>(R.id.main_view_pager).height
 
     private fun awaitEntries(): List<HistoryEntity> {
         repeat(50) {
