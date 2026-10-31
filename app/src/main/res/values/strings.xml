@@ -4,7 +4,7 @@
     <string name="application_tagline">Track. Analyze. Progress.</string>
 
     <string name="navigation_home">Home</string>
-    <string name="navigation_details">Details</string>
+    <string name="navigation_details">Advanced</string>
     <string name="navigation_graph">Graph</string>
     <string name="navigation_more">More</string>
     <string name="navigation_settings">Settings</string>
@@ -151,6 +151,14 @@
     <string name="settings_elapsed_threshold_dialog_description">Enter 1–10,080 minutes (up to 7 days).</string>
     <string name="settings_elapsed_threshold_hint">Minutes</string>
     <string name="settings_elapsed_threshold_error">Enter a whole number from 1 to 10,080.</string>
+    <string name="settings_add_button_color">Add button color</string>
+    <string name="settings_add_button_color_dialog_description">Choose the color of the Home Add cigarette button.</string>
+    <string name="home_button_color_orange">Orange</string>
+    <string name="home_button_color_blue">Blue</string>
+    <string name="home_button_color_green">Green</string>
+    <string name="home_button_color_purple">Purple</string>
+    <string name="home_button_color_red">Red</string>
+    <string name="home_button_color_gray">Gray</string>
     <string name="settings_general_widgets">Widgets</string>
     <string name="settings_general_widgets_description">Add widgets to the home screen</string>
 
