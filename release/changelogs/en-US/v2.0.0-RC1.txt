@@ -1,0 +1,9 @@
+MySmokingTracker 2.0.0 Release Candidate 1
+
+- Added a Minimal Home with elapsed time, one-tap cigarette insertion, and a smoked-today counter.
+- Preserved the original Home as the Advanced tab.
+- Added a configurable elapsed-time warning threshold and Add button color.
+- Preserved the original six XLSX worksheets, with optional settings in a seventh worksheet.
+- Adapted the Home layout to the available screen height without forced scrolling.
+
+MySmokingTracker is a modified fork of Smoking Tracker by Gašper Pintar, licensed under GPL-3.0.

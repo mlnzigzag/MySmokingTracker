@@ -1,0 +1,9 @@
+MySmokingTracker 2.0.0 Release Candidate 1
+
+- Dodan je bil preprost domači zaslon s pretečenim časom, dodajanjem cigarete z enim dotikom in števcem današnjih cigaret.
+- Prvotni domači zaslon je ohranjen v zavihku Napredno.
+- Dodani sta nastavljiva meja opozorila za pretečeni čas in barva gumba za dodajanje.
+- Ohranjenih je prvotnih šest delovnih listov XLSX, z izbirnimi nastavitvami v sedmem listu.
+- Domači zaslon se prilagodi razpoložljivi višini brez prisilnega drsenja.
+
+MySmokingTracker je spremenjena različica aplikacije Smoking Tracker avtorja Gašper Pintar, licencirana pod GPL-3.0.
